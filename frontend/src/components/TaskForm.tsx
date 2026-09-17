@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { Task, TaskStatus } from '../types/task';
+import './TaskManager.css';
 
 interface TaskFormProps {
   task?: Task; // if provided, we are editing
@@ -43,33 +44,38 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '20px' }}>
+    <form onSubmit={handleSubmit} className="task-form">
       <h2>{task ? 'Edit Task' : 'Add Task'}</h2>
-      <div>
-        <label htmlFor="title">Title:</label>
+
+      <div className="task-form-group">
+        <label className="task-form-label" htmlFor="title">Title:</label>
         <input
-          type="text"
+          className="task-form-input"
           id="title"
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
           maxLength={100}
         />
-        {errors.title && <span style={{ color: 'red' }}>{errors.title}</span>}
+        {errors.title && <span className="validation-error">{errors.title}</span>}
       </div>
-      <div>
-        <label htmlFor="description">Description:</label>
+
+      <div className="task-form-group">
+        <label className="task-form-label" htmlFor="description">Description:</label>
         <textarea
+          className="task-form-textarea"
           id="description"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           maxLength={500}
         />
-        {errors.description && <span style={{ color: 'red' }}>{errors.description}</span>}
+        {errors.description && <span className="validation-error">{errors.description}</span>}
       </div>
-      <div>
-        <label htmlFor="status">Status:</label>
+
+      <div className="task-form-group">
+        <label className="task-form-label" htmlFor="status">Status:</label>
         <select
+          className="task-form-select"
           id="status"
           value={status}
           onChange={(e) => setStatus(e.target.value as TaskStatus)}
@@ -79,18 +85,23 @@ const TaskForm: React.FC<TaskFormProps> = ({ task, onSave, onCancel }) => {
           <option value="DONE">DONE</option>
         </select>
       </div>
-      <div>
-        <label htmlFor="dueDate">Due Date:</label>
+
+      <div className="task-form-group">
+        <label className="task-form-label" htmlFor="dueDate">Due Date:</label>
         <input
+          className="task-form-input"
           type="date"
           id="dueDate"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
         />
       </div>
-      <div>
-        <button type="submit">{task ? 'Update' : 'Create'}</button>
-        <button type="button" onClick={onCancel} style={{ marginLeft: '10px' }}>
+
+      <div className="task-form-actions">
+        <button type="submit" className="btn btn-primary">
+          {task ? 'Update' : 'Create'}
+        </button>
+        <button type="button" className="btn btn-outline" onClick={onCancel}>
           Cancel
         </button>
       </div>

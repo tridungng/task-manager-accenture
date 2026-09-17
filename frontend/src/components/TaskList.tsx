@@ -3,6 +3,7 @@ import type { Task } from '../types/task';
 import * as taskApi from '../api/taskApi';
 import TaskItem from './TaskItem';
 import TaskForm from './TaskForm';
+import './TaskManager.css';
 
 const TaskList: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -71,25 +72,44 @@ const TaskList: React.FC = () => {
     loadTasks();
   }, []);
 
-  if (loading) return <div>Loading tasks...</div>;
-  if (error) return <div style={{ color: 'red' }}>{error}</div>;
+  if (loading) return <div className="loading-state">Loading tasks...</div>;
+  if (error) return <div className="validation-error" style={{ color: 'red' }}>{error}</div>;
 
   return (
-    <div>
-      <h1>Task Manager</h1>
-      <TaskForm
-        task={editingTaskId ? tasks.find((t) => t.id === editingTaskId) : undefined}
-        onSave={handleSave}
-        onCancel={() => setEditingTaskId(null)}
-      />
-      {tasks.map((task) => (
-        <TaskItem
-          key={task.id}
-          task={task}
-          onUpdate={handleSave}
-          onDelete={handleDeleteTask}
+    <div className="task-manager-container">
+      <div className="task-manager-header">
+        <h1 className="task-manager-title">Task Manager</h1>
+        <p className="task-manager-subtitle">Stay organized and productive</p>
+      </div>
+
+      <div className="task-form">
+        <TaskForm
+          task={editingTaskId ? tasks.find((t) => t.id === editingTaskId) : undefined}
+          onSave={handleSave}
+          onCancel={() => setEditingTaskId(null)}
         />
-      ))}
+      </div>
+
+      {tasks.length === 0 ? (
+        <div className="empty-state">
+          <div className="empty-state-icon">📝</div>
+          <h2 className="empty-state-title">No tasks yet</h2>
+          <p className="empty-state-description">
+            Get started by creating your first task using the form above!
+          </p>
+        </div>
+      ) : (
+        <div className="task-list">
+          {tasks.map((task) => (
+            <TaskItem
+              key={task.id}
+              task={task}
+              onUpdate={handleSave}
+              onDelete={handleDeleteTask}
+            />
+          ))}
+        </div>
+      )}
     </div>
   );
 };
