@@ -39,7 +39,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, onUpdate, onDelete }) => {
   const handleDelete = async () => {
     if (window.confirm('Are you sure you want to delete this task?')) {
       try {
-        await taskApi.deleteTask(task.id);
         onDelete(task.id);
       } catch (error) {
         // Error will be handled by the parent component
