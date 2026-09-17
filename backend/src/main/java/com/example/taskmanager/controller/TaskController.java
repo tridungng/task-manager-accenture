@@ -1,13 +1,20 @@
 package com.example.taskmanager.controller;
 
 import com.example.taskmanager.model.Task;
+import com.example.taskmanager.model.TaskStatus;
 import com.example.taskmanager.service.TaskService;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.HtmlUtils;
 
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -34,13 +41,10 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
-        // Escape HTML to prevent XSS
-        String escapedTitle = HtmlUtils.htmlEscape(task.getTitle());
-        String escapedDescription = task.getDescription() != null ? HtmlUtils.htmlEscape(task.getDescription()) : null;
-        task.setTitle(escapedTitle);
-        task.setDescription(escapedDescription);
         Task savedTask = taskService.createTask(task);
-        return ResponseEntity.created(URI.create("/api/tasks/" + savedTask.getId()))
+
+        return ResponseEntity
+                .created(URI.create("/api/tasks/" + savedTask.getId()))
                 .body(savedTask);
     }
 
