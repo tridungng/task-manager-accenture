@@ -1,0 +1,97 @@
+import React, { useState, useEffect } from 'react';
+import type { Task } from '../types/task';
+import * as taskApi from '../api/taskApi';
+import TaskItem from './TaskItem';
+import TaskForm from './TaskForm';
+
+const TaskList: React.FC = () => {
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
+  const [editingTaskId, setEditingTaskId] = useState<number | null>(null);
+
+  const loadTasks = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const data = await taskApi.getTasks();
+      setTasks(data);
+    } catch (err) {
+      setError('Failed to load tasks');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSave = async (taskData: Task) => {
+    if (editingTaskId) {
+      // update
+      try {
+        const updatedTask = await taskApi.updateTask(editingTaskId, {
+          title: taskData.title,
+          description: taskData.description ?? '',
+          status: taskData.status,
+          dueDate: taskData.dueDate ?? undefined,
+        });
+        setTasks(tasks.map(t => t.id === editingTaskId ? updatedTask : t));
+        setEditingTaskId(null);
+      } catch (err) {
+        setError('Failed to update task');
+        console.error(err);
+      }
+    } else {
+      // create
+      try {
+        const createdTask = await taskApi.createTask({
+          title: taskData.title,
+          description: taskData.description ?? '',
+          status: taskData.status,
+          dueDate: taskData.dueDate ?? undefined,
+        });
+        setTasks([...tasks, createdTask]);
+      } catch (err) {
+        setError('Failed to create task');
+        console.error(err);
+      }
+    }
+  };
+
+  const handleDeleteTask = async (id: number) => {
+    try {
+      await taskApi.deleteTask(id);
+      setTasks(tasks.filter((t) => t.id !== id));
+    } catch (err) {
+      setError('Failed to delete task');
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    loadTasks();
+  }, []);
+
+  if (loading) return <div>Loading tasks...</div>;
+  if (error) return <div style={{ color: 'red' }}>{error}</div>;
+
+  return (
+    <div>
+      <h1>Task Manager</h1>
+      <TaskForm
+        task={editingTaskId ? tasks.find((t) => t.id === editingTaskId) : undefined}
+        onSave={handleSave}
+        onCancel={() => setEditingTaskId(null)}
+      />
+      {tasks.map((task) => (
+        <TaskItem
+          key={task.id}
+          task={task}
+          onUpdate={handleSave}
+          onDelete={handleDeleteTask}
+        />
+      ))}
+    </div>
+  );
+};
+
+export default TaskList;
