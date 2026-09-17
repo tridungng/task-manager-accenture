@@ -5,6 +5,7 @@ import com.example.taskmanager.service.TaskService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.HtmlUtils;
 
 import java.net.URI;
 import java.util.List;
@@ -33,6 +34,11 @@ public class TaskController {
 
     @PostMapping
     public ResponseEntity<Task> createTask(@Valid @RequestBody Task task) {
+        // Escape HTML to prevent XSS
+        String escapedTitle = HtmlUtils.htmlEscape(task.getTitle());
+        String escapedDescription = task.getDescription() != null ? HtmlUtils.htmlEscape(task.getDescription()) : null;
+        task.setTitle(escapedTitle);
+        task.setDescription(escapedDescription);
         Task savedTask = taskService.createTask(task);
         return ResponseEntity.created(URI.create("/api/tasks/" + savedTask.getId()))
                 .body(savedTask);
@@ -40,6 +46,11 @@ public class TaskController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @Valid @RequestBody Task taskDetails) {
+        // Escape HTML to prevent XSS
+        String escapedTitle = HtmlUtils.htmlEscape(taskDetails.getTitle());
+        String escapedDescription = taskDetails.getDescription() != null ? HtmlUtils.htmlEscape(taskDetails.getDescription()) : null;
+        taskDetails.setTitle(escapedTitle);
+        taskDetails.setDescription(escapedDescription);
         Task updatedTask = taskService.updateTask(id, taskDetails);
         return ResponseEntity.ok(updatedTask);
     }
