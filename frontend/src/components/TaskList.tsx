@@ -73,7 +73,7 @@ const TaskList: React.FC = () => {
     }, []);
 
     if (loading) return <div className="loading-state">Loading tasks...</div>;
-    if (error) return <div className="validation-error" style={{color: 'red'}}>{error}</div>;
+    if (error) return <div className="validation-error">{error}</div>;
 
     return (
         <div className="task-manager-container">

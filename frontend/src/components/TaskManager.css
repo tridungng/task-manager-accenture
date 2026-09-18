@@ -145,14 +145,6 @@
     background-color: var(--primary-dark);
 }
 
-.btn-secondary {
-    background-color: var(--secondary-color);
-    color: white;
-}
-
-.btn-secondary:hover {
-    background-color: var(--secondary-dark);
-}
 
 .btn-outline {
     background-color: white;
@@ -165,15 +157,6 @@
     border-color: var(--gray-400);
 }
 
-.btn-danger {
-    background-color: var(--danger-color);
-    color: white;
-}
-
-.btn-danger:hover {
-    background-color: var(--danger-color);
-    opacity: 0.9;
-}
 
 .btn-sm {
     padding: 0.5rem 1rem;
