@@ -31,18 +31,28 @@
 }
 
 .task-manager-container {
+    display: flex;
+    flex-direction: column;
     max-width: 800px;
-    margin: 0 auto;
+    width: 100%;
     padding: 1.5rem;
     min-height: 100vh;
+    box-sizing: border-box;
+    background: white;
+    border-radius: var(--border-radius-lg);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--gray-200);
+    margin: 0 auto;
 }
 
+/* Header Styles */
 .task-manager-header {
     text-align: center;
     margin-bottom: 2rem;
 }
 
 .task-manager-title {
+    height: 2rem;
     font-size: 2.5rem;
     font-weight: 700;
     color: var(--gray-900);
@@ -79,21 +89,24 @@
 }
 
 .task-form-group {
-    margin-bottom: 1rem;
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    margin-bottom: 1.25rem;
 }
 
 .task-form-label {
-    display: block;
     font-weight: 500;
-    margin-bottom: 0.25rem;
+    margin-bottom: 0;
     color: var(--gray-700);
     font-size: 0.875rem;
+    white-space: nowrap;
 }
 
 .task-form-input,
 .task-form-textarea,
 .task-form-select {
-    width: 100%;
     padding: 0.75rem 1rem;
     border: 1px solid var(--gray-300);
     border-radius: var(--border-radius);
@@ -101,6 +114,7 @@
     background-color: white;
     color: var(--gray-900);
     transition: var(--transition);
+    width: 100%;
 }
 
 .task-form-input:focus,
@@ -145,7 +159,6 @@
     background-color: var(--primary-dark);
 }
 
-
 .btn-outline {
     background-color: white;
     color: var(--gray-700);
@@ -157,7 +170,6 @@
     border-color: var(--gray-400);
 }
 
-
 .btn-sm {
     padding: 0.5rem 1rem;
     font-size: 0.75rem;
@@ -166,6 +178,7 @@
 /* Task List Styles */
 .task-list {
     margin-top: 1rem;
+    flex-grow: 1;
 }
 
 .task-card {
@@ -262,6 +275,11 @@
     text-align: center;
     padding: 3rem 1rem;
     color: var(--gray-400);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .empty-state-icon {
@@ -289,6 +307,7 @@
     margin-top: 0.25rem;
     display: block;
     min-height: 1.25rem;
+    grid-column: 1 / -1;
 }
 
 /* Loading State */
@@ -296,12 +315,19 @@
     text-align: center;
     padding: 3rem 1rem;
     color: var(--gray-500);
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 /* Responsive Design */
 @media (max-width: 640px) {
     .task-manager-container {
         padding: 1rem;
+        margin: 1rem;
+        border-radius: var(--border-radius);
     }
 
     .task-manager-title {
@@ -327,5 +353,21 @@
 
     .task-meta {
         justify-content: flex-start;
+    }
+
+    /* Stack form groups vertically on small screens */
+    .task-form-group {
+        grid-template-columns: 1fr;
+    }
+
+    .task-form-label {
+        margin-bottom: 0.25rem;
+        white-space: normal;
+    }
+
+    .task-form-input,
+    .task-form-textarea,
+    .task-form-select {
+        width: 100%;
     }
 }
