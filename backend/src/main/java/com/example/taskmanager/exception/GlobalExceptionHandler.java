@@ -2,7 +2,6 @@ package com.example.taskmanager.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Path;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;

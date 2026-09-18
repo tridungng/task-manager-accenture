@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -78,8 +77,8 @@ class TaskControllerTest {
         // Create task
         Long taskId = objectMapper.readValue(
                 mockMvc.perform(post("/api/tasks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(sampleTask)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(sampleTask)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -97,8 +96,8 @@ class TaskControllerTest {
         // Create task
         Long taskId = objectMapper.readValue(
                 mockMvc.perform(post("/api/tasks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(sampleTask)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(sampleTask)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()
@@ -126,8 +125,8 @@ class TaskControllerTest {
         // Create task
         Long taskId = objectMapper.readValue(
                 mockMvc.perform(post("/api/tasks")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(sampleTask)))
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(sampleTask)))
                         .andExpect(status().isCreated())
                         .andReturn()
                         .getResponse()

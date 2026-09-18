@@ -5,11 +5,13 @@ A simple full-stack CRUD Task Manager application.
 ## Tech stack
 
 ### Frontend:
+
 - React
 - TypeScript
 - Vite
 
 ### Backend:
+
 - Java 17+
 - Spring Boot
 - Spring Data JPA
@@ -55,12 +57,14 @@ DELETE /api/tasks/{id}
 ## Testing
 
 Backend:
+
 ```bash
 cd backend
 mvn test
 ```
 
 Frontend build verification:
+
 ```bash
 cd frontend
 npm run build
